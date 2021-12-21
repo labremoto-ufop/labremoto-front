@@ -195,6 +195,7 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
       if (resp != null) {
         this.experimentoParametroForm = this.formBuilder.group(
           {
+            tipoControlador: new FormControl(1),
             algoritmoBusca: new FormControl(1),
             heuristica: new FormControl(1, Validators.required),
             mapScale: new FormControl(5, Validators.required),
@@ -203,6 +204,9 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
             kp: new FormControl(0, Validators.required),
             kd: new FormControl(0, Validators.required),
             ki: new FormControl(0, Validators.required),
+            kp_ang: new FormControl(0, Validators.required),
+            kd_ang: new FormControl(0, Validators.required),
+            ki_ang: new FormControl(0, Validators.required),
           }
         );
         this.getExperimentoParametros();
@@ -226,6 +230,10 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
       this.experimentoParametroForm.get("ki").setValue(resp.ki);
       this.experimentoParametroForm.get("kd").setValue(resp.kd);
       if (parseInt(this.currentExperimento.codExperimento) === 1) {
+        this.experimentoParametroForm.get("kp_ang").setValue(resp.kp_ang);
+        this.experimentoParametroForm.get("ki_ang").setValue(resp.ki_ang);
+        this.experimentoParametroForm.get("kd_ang").setValue(resp.kd_ang);
+        this.experimentoParametroForm.get("tipoControlador").setValue(resp.tipoControlador);
         this.experimentoParametroForm.get("algoritmoBusca").setValue(resp.algoritmoBusca);
         this.experimentoParametroForm.get("heuristica").setValue(resp.heuristica);
         this.experimentoParametroForm.get("mapScale").setValue(resp.tamanhoMapaBusca);
@@ -240,10 +248,14 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
     if (parseInt(this.currentExperimento.codExperimento) === 1) {
       parametrosRequest.objetivoX = this.apontar.goalX;
       parametrosRequest.objetivoY = this.apontar.goalY;
+      parametrosRequest.tipoControlador = this.experimentoParametroForm.get("tipoControlador").value;
       parametrosRequest.algoritmoBusca = this.experimentoParametroForm.get("algoritmoBusca").value;
       parametrosRequest.safeScale = this.experimentoParametroForm.get("safeScale").value;
       parametrosRequest.heuristica = this.experimentoParametroForm.get("heuristica").value;
       parametrosRequest.mapScale = this.experimentoParametroForm.get("mapScale").value;
+      parametrosRequest.kp_ang = this.experimentoParametroForm.get("kp_ang").value;
+      parametrosRequest.ki_ang = this.experimentoParametroForm.get("ki_ang").value;
+      parametrosRequest.kd_ang = this.experimentoParametroForm.get("kd_ang").value;
     } else {
       parametrosRequest.algoritmoBusca = 0
     }

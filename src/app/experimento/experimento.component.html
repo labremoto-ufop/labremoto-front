@@ -64,6 +64,19 @@
             <form [formGroup]="experimentoParametroForm">
               <div class='row'>
                 <div class='col-md-5'>
+                  <label for='deInputTipoControlador'>Tipo de Controlador</label>
+                </div>
+                <div class='col-md-7'>
+                  <div class='form-group'>
+                    <select class="form-control" id="deInputTipoControlador" formControlName="tipoControlador">
+                      <option value="1">PID Duplo - Coordenadas Polares</option>
+                      <option value="2">Proporcional Feedforward</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class='row'>
+                <div class='col-md-5'>
                   <label for='deInputAlgoritmoBusca'>Algoritmo de Busca</label>
                 </div>
                 <div class='col-md-7'>
@@ -115,7 +128,8 @@
               </div>
               <div class='row'>
                 <div class='col-md-5'>
-                  <label for='deInputKp'>Kp (PID)</label>
+                  <label for='deInputKp' *ngIf="experimentoParametroForm.get('tipoControlador').value == 1">Kp (PID 1 - Linear)</label>
+                  <label for='deInputKp' *ngIf="experimentoParametroForm.get('tipoControlador').value == 2">Kp</label>
                 </div>
                 <div class='col-md-7'>
                   <div class='form-group'>
@@ -123,26 +137,58 @@
                   </div>
                 </div>
               </div>
-              <div class='row'>
-                <div class='col-md-5'>
-                  <label for='deInputKd'>Kd (PID)</label>
-                </div>
-                <div class='col-md-7'>
-                  <div class='form-group'>
-                    <input class='form-control' type='number' id='deInputKd' formControlName="kd" />
+              <ng-container *ngIf="experimentoParametroForm.get('tipoControlador').value == 1">
+                <div class='row'>
+                  <div class='col-md-5'>
+                    <label for='deInputKd'>Kd (PID 1 - Linear)</label>
+                  </div>
+                  <div class='col-md-7'>
+                    <div class='form-group'>
+                      <input class='form-control' type='number' id='deInputKd' formControlName="kd" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class='row'>
-                <div class='col-md-5'>
-                  <label for='deInputKi'>Ki (PID)</label>
-                </div>
-                <div class='col-md-7'>
-                  <div class='form-group'>
-                    <input class='form-control' type='number' id='deInputKi' formControlName="ki" />
+                <div class='row'>
+                  <div class='col-md-5'>
+                    <label for='deInputKi'>Ki (PID 1 - Linear)</label>
+                  </div>
+                  <div class='col-md-7'>
+                    <div class='form-group'>
+                      <input class='form-control' type='number' id='deInputKi' formControlName="ki" />
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div class='row'>
+                  <div class='col-md-5'>
+                    <label for='deInputKp_ang'>Kp (PID 2 - Angular)</label>
+                  </div>
+                  <div class='col-md-7'>
+                    <div class='form-group'>
+                      <input class='form-control' type='number' id='deInputKp_ang' formControlName="kp_ang" />
+                    </div>
+                  </div>
+                </div>
+                <div class='row'>
+                  <div class='col-md-5'>
+                    <label for='deInputKd_ang'>Kd (PID 2 - Angular)</label>
+                  </div>
+                  <div class='col-md-7'>
+                    <div class='form-group'>
+                      <input class='form-control' type='number' id='deInputKd_ang' formControlName="kd_ang" />
+                    </div>
+                  </div>
+                </div>
+                <div class='row'>
+                  <div class='col-md-5'>
+                    <label for='deInputKi_ang'>Ki (PID 2 - Angular)</label>
+                  </div>
+                  <div class='col-md-7'>
+                    <div class='form-group'>
+                      <input class='form-control' type='number' id='deInputKi_ang' formControlName="ki_ang" />
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
               <div class='row'>
                 <div class='col-md-12'>
                   <button class='btn btn-primary btn-block' style='margin-bottom: 10px;' type='button'
@@ -352,8 +398,8 @@
     <div class='col-md-3 col-sm-12' *ngIf='currentExperimento == null && teleoperacao == true'>
       <div class='row'>
         <div class='col-md-12'>
-          <button class='btn btn-dark btn-sm' style='margin-left: 38px;' type="button" (click)='teleoperacaoInstrucao(1)'><span
-              class='fa fa-arrow-up'></span></button>
+          <button class='btn btn-dark btn-sm' style='margin-left: 38px;' type="button"
+            (click)='teleoperacaoInstrucao(1)'><span class='fa fa-arrow-up'></span></button>
         </div>
       </div>
       <div class='row mt-1'>
