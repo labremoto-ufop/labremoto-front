@@ -50,11 +50,11 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
     title: '',
     useBom: false,
     removeNewLines: true,
-    keys: ['time','linearVel','angularVel', 'posX', 'posY', 'goalX', 'goalY', 'linearError', 'angularError' ]
+    keys: ['time', 'linearVel', 'angularVel', 'posX', 'posY', 'goalX', 'goalY', 'linearError', 'angularError']
   };
 
   csvData = [];
-  
+
 
   colorScheme = {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
@@ -63,7 +63,7 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
   constructor(private service: HistoryExperimentoService,
     private experimentoService: ExperimentoService,
     private route: ActivatedRoute) {
-     }
+  }
 
   ngAfterViewInit() {
     this.graph = this.canvas.nativeElement.getContext('2d');
@@ -127,7 +127,7 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
   drawCanvas() {
     // Define a resolucao correta do grafico
     const fatorMapa = (this.canvas.nativeElement.width * this.experimentoParametros.tamanhoMapaBusca) / 1280;
-    const fatorMapaReal = (this.canvas.nativeElement.width ) / 1280
+    const fatorMapaReal = (this.canvas.nativeElement.width) / 1280
     this.graph.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     this.graph.beginPath();
     if (this.drawOptionsArr[0] === true) {
@@ -139,7 +139,7 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
     }
     this.graph.closePath();
     this.graph.beginPath();
-    if (this.drawOptionsArr[1] === true) {
+    if (this.drawOptionsArr[1] === true && this.experimentoParametros.estatisticasBusca != null) {
       this.graph.strokeStyle = 'blue';
       for (const pathItem of this.experimentoParametros.estatisticasBusca.path) {
         this.graph.arc(pathItem[0] * fatorMapa, pathItem[1] * fatorMapa, 1, 0, 2 * Math.PI);
@@ -147,7 +147,7 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (this.drawOptionsArr[2] === true) {
+    if (this.drawOptionsArr[2] === true && this.experimentoParametros.estatisticasBusca != null) {
       this.graph.fillStyle = '#000000';
       for (const x in this.experimentoParametros.estatisticasBusca.map) {
         for (const y in this.experimentoParametros.estatisticasBusca.map[x]) {
@@ -157,7 +157,7 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (this.drawOptionsArr[3] === true) {
+    if (this.drawOptionsArr[3] === true && this.experimentoParametros.estatisticasBusca != null) {
       this.graph.fillStyle = '#999999';
       for (const x in this.experimentoParametros.estatisticasBusca.map) {
         for (const y in this.experimentoParametros.estatisticasBusca.map[x]) {
@@ -197,24 +197,27 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
     this.experimentoResultados.forEach(resultado => {
       const rho = Math.sqrt((resultado.data.objetivoX - resultado.posX) ** 2 + (resultado.data.objetivoY - resultado.posY) ** 2);
       const timestamp = (new Date(resultado.dtCriacao).getTime() - new Date(resultado.startTime).getTime()) / 1000;
+      if (resultado.data.angularError == null || isNaN(resultado.data.angularError)) {
+        resultado.data.angularError = 0;
+      }
       this.multi[0].series.push(
         {
           "name": timestamp,
-          "value": rho/100
+          "value": resultado.data.linearError / 100
         }
-      ),
+      );
       this.multi[1].series.push(
         {
           "name": timestamp,
           "value": resultado.data.angularError
         }
-      ),
-      this.multi[2].series.push(
-        {
-          "name": timestamp,
-          "value": resultado.linearVel
-        }
       );
+        this.multi[2].series.push(
+          {
+            "name": timestamp,
+            "value": resultado.linearVel
+          }
+        );
       this.multi[3].series.push(
         {
           "name": timestamp,
@@ -234,7 +237,7 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
         angularError: resultado.data.angularError
       }
       this.csvData.push(csvRow);
-      
+
     });
   }
 
