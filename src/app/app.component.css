@@ -7,3 +7,10 @@
     padding-left: 10px;
     margin-left: 20px;
 }
+.logo-em {
+    max-height: 120px;
+    float: right;
+    padding: 20px;
+    padding-right: 50px;
+    display: block;
+}

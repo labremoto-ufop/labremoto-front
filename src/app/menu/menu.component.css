@@ -13,7 +13,7 @@
     float: left;
     padding: 5px;
     position: absolute;
-    background: #122b58;
+    background: #df3e40;
     font-size: .6em;
     border-bottom-right-radius: 4px;
     color: #fff;
@@ -32,9 +32,9 @@
     padding: 10px;
     text-align: center;
     font-size: 1.2em;
-    background: #122b58;
+    background: #df3e40;
     color: #fff;
-    border-bottom: 1px solid #183f86;
+    border-bottom: 1px solid #e1585b;
 }
 
 .itens .item {
@@ -46,18 +46,18 @@
 .itens a:hover {
     text-decoration: none;
     color: #fff;
-    background: #183f86;
+    background: #e1585b;
 }
 .itens .item:hover {
     text-decoration: none;
     color: #fff;
-    background: #183f86;
+    background: #e1585b;
 }
 
 .user {
     text-align: center;
     color: #fff;
-    background: #183f86;
+    background: #e1585b;
     font-size: .8em;
     padding: 7px;
 }
