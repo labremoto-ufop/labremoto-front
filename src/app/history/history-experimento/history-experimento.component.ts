@@ -136,6 +136,10 @@ export class HistoryExperimentoComponent implements OnInit, AfterViewInit {
         this.graph.arc(pathItem.posX * fatorMapaReal, pathItem.posY * fatorMapaReal, 3, 0, 2 * Math.PI);
         this.graph.stroke();
       }
+      this.graph.font = '15px Arial';
+      this.graph.fillText('Início', (this.experimentoResultados[0].posX * fatorMapaReal) + 25, (this.experimentoResultados[0].posY * fatorMapaReal) +5);
+      this.graph.fillText('Fim', (this.experimentoResultados[this.experimentoResultados.length - 1].posX * fatorMapaReal) + 25, (this.experimentoResultados[this.experimentoResultados.length - 1].posY * fatorMapaReal) +5);
+
     }
     this.graph.closePath();
     this.graph.beginPath();
