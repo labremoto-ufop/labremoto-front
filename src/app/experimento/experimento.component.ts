@@ -58,6 +58,7 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
   interval;
   intervalResults;
   intervalSessao;
+  refreshTime = 2000;
 
   // Variáveis de formulário e controle da página
   experimentoParametroForm: FormGroup;
@@ -82,15 +83,20 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateExperimentoData();
-    this.interval = setInterval(() => { this.updateExperimentoData(); }, 800);
-    this.intervalResults = setInterval(() => { this.getExperimentoResults(); }, 1000);
-    this.intervalSessao = setInterval(() => { this.checkSessaoAtiva(); }, 1000);
+    this.interval = setInterval(() => { this.updateExperimentoData(); }, this.refreshTime);
+    this.intervalResults = setInterval(() => { this.getExperimentoResults(); }, 3000);
+    this.intervalSessao = setInterval(() => { this.checkSessaoAtiva(); }, 3000);
     this.cameraVideoUrl = environment.URLS.cameraImg;
     this.trajetoriaVideoUrl = environment.URLS.trajetoriaImg;
     this.mapeamentoVideoUrl = environment.URLS.mapeamentoImg;
     this.currentTimestamp = + new Date();
     this.getSessaoAtiva();
 
+  }
+
+  updateRefreshTime() {
+    clearInterval(this.interval);
+    this.interval = setInterval(() => { this.updateExperimentoData(); }, this.refreshTime);
   }
 
   checkSessaoAtiva() {

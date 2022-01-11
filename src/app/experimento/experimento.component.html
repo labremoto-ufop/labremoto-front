@@ -128,7 +128,8 @@
               </div>
               <div class='row'>
                 <div class='col-md-5'>
-                  <label for='deInputKp' *ngIf="experimentoParametroForm.get('tipoControlador').value == 1">Kp (PID 1 - Linear)</label>
+                  <label for='deInputKp' *ngIf="experimentoParametroForm.get('tipoControlador').value == 1">Kp (PID 1 -
+                    Linear)</label>
                   <label for='deInputKp' *ngIf="experimentoParametroForm.get('tipoControlador').value == 2">Kp</label>
                 </div>
                 <div class='col-md-7'>
@@ -328,6 +329,24 @@
         </div>
         <div class="card-body" id="trajetoria-wrap" *ngIf='cameraNavTab == 3 || cameraNavTab == 4'>
           <img #cameraTrajeWrap src='{{ getTrajetoriaImage() }}' id='trajetoria-image' />
+        </div>
+        <div class='card-body'>
+          <div><label>Alterar tempo de atualização da câmera.</label></div>
+          <div class='row'>
+            <div class='col-md-4 col-sm-12'>
+              <div class='input-group input-group-sm md-3'>
+                <input class='form-control form-control-sm' type='number' [(ngModel)]='refreshTime' />
+                <div class="input-group-append">
+                  <div class="input-group-text">ms</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='row mt-1'>
+            <div class='col-md-3 col-sm-12'>
+              <button type='button' class='btn btn-sm btn-light' (click)='updateRefreshTime()'>Atualizar</button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card  mt-3" *ngIf='currentExperimento != null'>
