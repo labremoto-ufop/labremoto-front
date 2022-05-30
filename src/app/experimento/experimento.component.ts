@@ -58,7 +58,7 @@ export class ExperimentoComponent implements OnInit, OnDestroy {
   interval;
   intervalResults;
   intervalSessao;
-  refreshTime = 2000;
+  refreshTime = 50;
 
   // Variáveis de formulário e controle da página
   experimentoParametroForm: FormGroup;
